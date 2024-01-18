@@ -61,7 +61,7 @@ const ConfirmPass = () => {
     console.log("Entering handleSubmit");
     try {
       const response = await axios.post(
-        "https://catopia-backendd.onrender.com/confirm",
+        "https://catopia-backend.onrender.com/confirm",
         { userCode: enteredCode },
         {
           headers: {

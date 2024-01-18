@@ -33,7 +33,7 @@ const ChangePass = () => {
 
       try {
         const response = await axios.patch(
-          "https://catopia-backendd.onrender.com/change-password",
+          "https://catopia-backend.onrender.com/change-password",
           { password },
           {
             headers: {

@@ -113,7 +113,7 @@ const Register = () => {
 
       try {
         const response = await axios.post(
-          "https://catopia-backendd.onrender.com/register",
+          "https://catopia-backend.onrender.com/register",
           formData,
           {
             headers: {

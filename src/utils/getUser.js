@@ -9,7 +9,7 @@ const AllUserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://catopia-backendd.onrender.com/getUser", {
+        const response = await axios.get("https://catopia-backend.onrender.com/getUser", {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },

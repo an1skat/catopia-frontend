@@ -17,7 +17,7 @@ const AuthMe = () => {
           throw new Error('No authentication token available.');
         }
 
-        const response = await axios.post('https://catopia-backendd.onrender.com/auth/me', null, {
+        const response = await axios.post('https://catopia-backend.onrender.com/auth/me', null, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },

@@ -36,7 +36,7 @@ const ForgotPass = () => {
   
         try {
           const response = await axios.post(
-            "https://catopia-backendd.onrender.com/forgot-password",
+            "https://catopia-backend.onrender.com/forgot-password",
             { email },
             {
               headers: {

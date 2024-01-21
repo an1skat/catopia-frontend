@@ -242,7 +242,7 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`http://catopia-backend.onrender.com/getUser/${id}`);
+      const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
       const userData = response.data.user;
       setUserProfile(userData);
       setAvatar(userData.avatar); // Предположим, что информация о пользователе содержит поле "avatar"

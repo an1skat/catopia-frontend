@@ -115,7 +115,7 @@ export const getAllUsers = async () => {
 
 export const getUserProfile = async (id) => {
     try {
-        const response = await axios.get(`http://catopia-backend.onrender.com/getUser/${id}`);
+        const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
         return console.log("Response:", response.data);
     }
     catch (err) {

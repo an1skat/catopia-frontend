@@ -1,0 +1,106 @@
+.forgot-section {
+  padding-top: 70px;
+}
+.forgot-section > .container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.forgot-title {
+  text-align: center;
+  color: var(--main-color);
+  font-size: 64px;
+  font-weight: 600;
+  line-height: normal;
+}
+.forgot-text {
+  color: rgba(112, 139, 117, 0.75);
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 20px;
+}
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 45px;
+}
+.forgot-input {
+  border-radius: 44px;
+  background: rgba(112, 139, 117, 0.25);
+  color: var(--main-color);
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  outline: none;
+  padding: 19px 200px 19px 30px;
+}
+.forgot-input::placeholder {
+  color: var(--main-color);
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: normal;
+}
+.forgot-btn-container {
+  margin-top: 45px;
+  display: flex;
+  gap: 56px;
+}
+.forgot-btn,
+.back-btn {
+  padding: 11px 62px;
+  border-radius: 30px;
+  border: 2px solid rgba(112, 139, 117, 0.75);
+  color: rgba(112, 139, 117, 0.75);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  transition: all 0.3s;
+}
+.back-btn {
+  border: 2px solid rgba(237, 175, 184, 0.75);
+  color: rgba(237, 175, 184, 0.75);
+}
+.forgot-btn:hover {
+  background-color: var(--main-color);
+  color: #fff;
+  cursor: pointer;
+}
+.back-btn:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+  cursor: pointer;
+}
+.forgot-btn:active {
+  background-color: rgba(112, 139, 117, 0.5);
+}
+.back-btn:active {
+  background-color: rgba(237, 175, 184, 0.5);
+}
+
+.code-input {
+  display: flex;
+  gap: 31px;
+  margin-bottom: 30px;
+}
+.confirm-input {
+  width: 68px;
+  height: 70px;
+  border: none;
+  border-radius: 15px;
+  background: rgba(112, 139, 117, 0.25);
+  color: var(--main-color);
+  text-align: center;
+  font-family: Inter;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: normal;
+}

@@ -7,7 +7,7 @@ import { AuthProvider } from "./utils/authContext.js";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
+    <Router basename="/catopia">
       <AuthProvider>
         <App />
       </AuthProvider>

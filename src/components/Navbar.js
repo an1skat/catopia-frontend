@@ -3,13 +3,13 @@ import { NavLink, Link } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import { useAuth } from "../utils/authContext.js";
 import { PersonSvg, NotificationsSvg } from "../components/Svg.js";
-import UserId from "../utils/Userid";
+import UserId from "../utils/Userid.js";
 import axios from "axios";
 const UserProfile = () => {
   const { authToken } = useAuth();
   const [avatar, setAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const id = UserId();
+  const { userId } = UserId();
 
   useEffect(() => {
     setIsLoading(true);
@@ -23,7 +23,7 @@ const UserProfile = () => {
       .then((response) => {
         const avatarFileName = response.data.avatar;
 
-        if (typeof avatarFileName === 'string' && avatarFileName !== 'null') {
+        if (typeof avatarFileName === "string" && avatarFileName !== "null") {
           setAvatar(avatarFileName);
         } else {
           setAvatar(null);
@@ -43,7 +43,7 @@ const UserProfile = () => {
       {isLoading ? (
         <span>Loading...</span>
       ) : avatar !== null ? (
-        <Link to={`/profile/${id}`}>
+        <Link to={`/profile/${userId}`}>
           <img
             style={{ borderRadius: "50%", width: "40px", height: "40px" }}
             src={`https://catopia-backend.onrender.com/uploads/${avatar}`}
@@ -51,7 +51,7 @@ const UserProfile = () => {
           />
         </Link>
       ) : (
-        <Link to={`/profile/${id}`}>
+        <Link to={`/profile/${userId}`}>
           <PersonSvg />
         </Link>
       )}

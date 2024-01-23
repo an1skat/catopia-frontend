@@ -211,6 +211,8 @@
   background-color: #fff;
   padding: 25px;
   border-radius: 30px;
+  width: 400px;
+  height: 455px;
 }
 .avatar-modal-closebtn {
   border: none;
@@ -258,10 +260,46 @@
   font-weight: 400;
   line-height: normal;
   text-align: center;
-  margin-top: 65px;
+  margin-top: 20px;
   transition: background-color 0.2s;
 }
 .avatar-modal-btn:hover {
   background-color: var(--main-color);
+  cursor: pointer;
+}
+.avatar-modal-btn-container {
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.avatar-confirm-btn,
+.avatar-delete-btn {
+  border-radius: 30px;
+  background-color: rgba(112, 139, 117, 0.75);
+  border: none;
+  color: #fff;
+  width: 164px;
+  padding: 16px 0;
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+.avatar-confirm-btn:hover {
+  background-color: var(--main-color);
+  cursor: pointer;
+}
+.avatar-delete-btn {
+  background-color: transparent;
+  border: 2px solid #EDAFB8;
+  color: #EDAFB8;
+  transition: all 0.3s;
+}
+.avatar-delete-btn:hover {
+  background-color: #EDAFB8;
+  color: #fff;
   cursor: pointer;
 }

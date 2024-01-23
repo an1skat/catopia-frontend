@@ -1,4 +1,5 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { React, useState, useEffect } from "react";
 import "../styles/main.css";
 import "./styles/profile.css";
 import {
@@ -18,64 +19,45 @@ import {
   FullLogoSvg,
   CloseSvg,
 } from "../components/Svg.js";
-import { React, useState, useEffect } from "react";
 import { useAuth } from "../utils/authContext.js";
 import axios from "axios";
 import AllUserProfile from "../utils/getUser.js";
 import { UploadAvatar, getUserProfile } from "../utils/DifferentUtils.js";
-import UserId from "../utils/Userid.js";
 
 const UserProfile = () => {
-  const { authToken } = useAuth();
-  const [avatar, setAvatar] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userAvatar, setUserAvatar] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const id = window.location.pathname.split("/profile/")[1];
 
   useEffect(() => {
-    const fetchAvatar = async () => {
-      if (authToken) {
-        try {
-          const response = await axios.get(
-            "https://catopia-backend.onrender.com/getAvatar",
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
-          );
-
-          const avatarFileName = response.data.avatar;
-
-          if (typeof avatarFileName === "string" && avatarFileName !== "null") {
-            setAvatar(avatarFileName);
-          } else {
-            setAvatar(null);
-          }
-        } catch (error) {
-          console.error(error);
-          setAvatar(null);
-        } finally {
-          setIsLoading(false);
-        }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://catopia-backend.onrender.com/getUser/${id}`
+        );
+        const userData = response.data.user;
+        setUserAvatar(userData.avatar);
+      } catch (error) {
+        console.error("Error fetching user profile:", error.message);
       }
     };
 
-    // Вызывать fetchAvatar каждую секунду
     const intervalId = setInterval(() => {
-      fetchAvatar();
+      fetchData();
     }, 100);
 
-    // Очистить интервал при размонтировании компонента
-    return () => clearInterval(intervalId);
-  }, [authToken]);
+    return () => clearInterval(intervalId); // Очистка интервала при размонтировании компонента
+  }, []);
 
   return (
     <div>
       {isLoading ? (
         <p>Loading...</p>
-      ) : avatar !== null ? (
+      ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "200px", height: "200px" }}
-          src={`https://catopia-backend.onrender.com/uploads/${avatar}`}
+          src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
           alt="User Avatar"
         />
       ) : (
@@ -85,55 +67,39 @@ const UserProfile = () => {
   );
 };
 const SmallUserProfile = () => {
-  const { authToken } = useAuth();
-  const [avatar, setAvatar] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userAvatar, setUserAvatar] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const id = window.location.pathname.split("/profile/")[1];
 
   useEffect(() => {
-    const fetchAvatar = async () => {
-      if (authToken) {
-        try {
-          const response = await axios.get(
-            "https://catopia-backend.onrender.com/getAvatar",
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
-          );
-
-          const avatarFileName = response.data.avatar;
-
-          if (typeof avatarFileName === "string" && avatarFileName !== "null") {
-            setAvatar(avatarFileName);
-          } else {
-            setAvatar(null);
-          }
-        } catch (error) {
-          console.error(error);
-          setAvatar(null);
-        } finally {
-          setIsLoading(false);
-        }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://catopia-backend.onrender.com/getUser/${id}`
+        );
+        const userData = response.data.user;
+        setUserAvatar(userData.avatar);
+      } catch (error) {
+        console.error("Error fetching user profile:", error.message);
       }
     };
 
     const intervalId = setInterval(() => {
-      fetchAvatar();
+      fetchData();
     }, 100);
 
-    // Очистить интервал при размонтировании компонента
-    return () => clearInterval(intervalId);
-  }, [authToken]);
+    return () => clearInterval(intervalId); // Очистка интервала при размонтировании компонента
+  }, []);
 
   return (
     <div>
       {isLoading ? (
         <p>Loading...</p>
-      ) : avatar !== null ? (
+      ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "60px", height: "60px" }}
-          src={`https://catopia-backend.onrender.com/uploads/${avatar}`}
+          src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
           alt="User Avatar"
         />
       ) : (
@@ -143,8 +109,9 @@ const SmallUserProfile = () => {
   );
 };
 const UserName = () => {
+  const { userName } = AllUserProfile();
   const userProfile = AllUserProfile();
-  const name = userProfile ? userProfile.name : null;
+  const name = userProfile ? userName : null;
   return <p className="my-post-user-info-name">{name ? name : "User Name"}</p>;
 };
 
@@ -156,6 +123,7 @@ const UserDate = () => {
 
 const Modal = ({ isModalVisible, onConfirm, onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const { userAvatar } = AllUserProfile();
 
   const handleConfirm = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -197,7 +165,6 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
   const handleFileChange = (file) => {
     setSelectedFile(file);
   };
-
   return (
     <>
       {isModalVisible && (
@@ -219,13 +186,31 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
               you.
             </p>
             <UploadAvatar onFileChange={handleFileChange} />
-            <button
-              type="button"
-              className="avatar-modal-btn"
-              onClick={handleConfirm}
-            >
-              Confirm
-            </button>
+            {userAvatar !== null ? (
+              <div className="avatar-modal-btn-container">
+                <button
+                  type="button"
+                  className="avatar-confirm-btn"
+                  onClick={handleConfirm}
+                >
+                  Confirm
+                </button>
+                <button
+                  type="button"
+                  className="avatar-delete-btn"
+                >
+                  Delete
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="avatar-modal-btn"
+                onClick={handleConfirm}
+              >
+                Confirm
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -242,7 +227,9 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
+      const response = await axios.get(
+        `https://catopia-backend.onrender.com/getUser/${id}`
+      );
       const userData = response.data.user;
       setUserProfile(userData);
       setAvatar(userData.avatar); // Предположим, что информация о пользователе содержит поле "avatar"

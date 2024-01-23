@@ -2,45 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../utils/authContext.js";
 import axios from "axios";
 import { AvatarSvg } from "../components/Svg.js";
+import AllUserProfile from "./getUser.js";
 
 export const UploadAvatar = ({ onFileChange }) => {
-  const { authToken } = useAuth();
-  const [avatar, setAvatar] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isImageClicked, setIsImageClicked] = useState(false);
+  const {userAvatar} = AllUserProfile();
 
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      if (authToken) {
-        try {
-          const response = await axios.get(
-            "https://catopia-backend.onrender.com/getAvatar",
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
-          );
-
-          const avatarFileName = response.data.avatar;
-
-          if (typeof avatarFileName === "string" && avatarFileName !== "null") {
-            setAvatar(avatarFileName);
-          } else {
-            setAvatar(null);
-          }
-        } catch (error) {
-          console.error(error);
-          setAvatar(null);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchAvatar();  
-  }, [authToken]);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -65,6 +34,7 @@ export const UploadAvatar = ({ onFileChange }) => {
   
   return (
     <div>
+      {console.log("userAvatar:", userAvatar)}
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -76,10 +46,10 @@ export const UploadAvatar = ({ onFileChange }) => {
               alt="User Avatar"
               onClick={handleImageClick}
             />
-          ) : avatar !== null ? (
+          ) : userAvatar !== null ? (
             <img
               style={{ borderRadius: '50%', width: '200px', height: '200px', cursor: 'pointer' }}
-              src={`https://catopia-backend.onrender.com/uploads/${avatar}`}
+              src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
               alt="User Avatar"
               onClick={handleImageClick}
             />

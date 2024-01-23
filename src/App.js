@@ -16,11 +16,11 @@ import CatopiaRedirect from "./utils/CatopiaRedirect";
 import ScrollControl from "./utils/scrollControl";
 import ScrollToTop from "./utils/scrollToTop";
 import RedirectAfterAuth from "./subpages/RedirectAfterAuth";
-import UserId from "./utils/Userid";
+import AllUserProfile from "./utils/getUser";
 
 function App() {
   const location = useLocation();
-  const id = UserId();
+  const { userId } = AllUserProfile();
 
   const hide =
     location.pathname === "/register" ||
@@ -29,7 +29,7 @@ function App() {
     location.pathname === "/confirm" ||
     location.pathname === "/change-password" ||
     location.pathname === "/auth/me" ||
-    location.pathname === `/profile/${id}`;
+    location.pathname === `/profile/${userId}`;
 
   return (
     <div className="App">
@@ -47,7 +47,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPass />} />
         <Route path="/confirm" element={<ConfirmPass />} />
         <Route path="/change-password" element={<ChangePass />} />
-        <Route path={`/profile/${id}`} element={<Profile />} />
+        <Route path={`/profile/${userId}`} element={<Profile />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/redirect-after-auth" element={<RedirectAfterAuth />} />
       </Routes>

@@ -1,32 +1,43 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation  } from "react-router-dom";
 
 const AllUserProfile = () => {
-  const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [userAvatar, setUserAvatar] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
 
-   const authToken = localStorage.getItem("authToken");
+  const id = window.location.pathname.split("/profile/")[1];
+  console.log("id:", id);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
+      const userData = response.data.user;
+      setUserProfile(userData);
+      setUserId(userData._id);
+      setUserName(userData.name);
+      setUserAvatar(userData.avatar);
+    } catch (error) {
+      console.error("Error fetching user profile:", error.message);
+    }
+  };
 
   useEffect(() => {
-    console.log("authToken:", authToken);
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://catopia-backend.onrender.com/getUser", {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-        setUser(response.data.user);
-      } catch (error) {
-        console.error("Error during request:", error);
-      }
-    };
+    fetchUserProfile();
+  }, [id]);
 
-    fetchData();
-  }, [authToken]);
+  console.log("User:", userProfile);
+  console.log("User ID:", userId);
+  console.log("User Name:", userName);
+  console.log("User Avatar:", userAvatar);
 
-  console.log("User:", user);
-
-  return user;
+  return {
+    userId: userProfile ? userProfile._id : null,
+    userName: userProfile ? userProfile.name : null,
+    userAvatar: userProfile ? userProfile.avatar : null,
+  };
 };
 
 export default AllUserProfile;

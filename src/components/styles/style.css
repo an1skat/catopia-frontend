@@ -1,0 +1,47 @@
+.loader {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  gap: 2px;
+}
+
+.dot,
+.mdot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  animation: bounce 1s infinite;
+}
+
+.mdot {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+}
+
+#dot2 {
+  animation-delay: 0.2s;
+}
+
+#dot3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}

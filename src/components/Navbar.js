@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import { useAuth } from "../utils/authContext.js";
 import { PersonSvg, NotificationsSvg } from "../components/Svg.js";
+import { MiniLoader } from "./Loader.js";
 import UserId from "../utils/Userid.js";
 import axios from "axios";
 const UserProfile = () => {
@@ -41,7 +42,9 @@ const UserProfile = () => {
   return (
     <div>
       {isLoading ? (
-        <span>Loading...</span>
+        <div style={{ width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <MiniLoader />
+        </div>
       ) : avatar !== null ? (
         <Link to={`/profile/${userId}`}>
           <img

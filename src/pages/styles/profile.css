@@ -1,12 +1,9 @@
 .profile {
   display: flex;
-  width: 100vw;
-  height: 100vh;
   justify-content: space-between;
 }
 .nav-section {
   width: 20%;
-  height: 100%;
   background-color: var(--main-color);
   padding-top: 60px;
 }
@@ -23,7 +20,6 @@
 }
 .profile-section {
   width: 80%;
-  height: 100%;
   background-color: #e4e9e5;
 }
 .text-container {
@@ -108,6 +104,24 @@
   font-size: 20px;
   font-weight: 500;
   line-height: normal;
+  transition: color 0.3s;
+}
+.settings-btn:hover {
+  color: var(--main-color);
+  cursor: pointer;
+}
+.settings-btn:active {
+  color: rgba(112, 139, 117, 0.75);
+}
+.settings-btn > svg {
+  fill: rgba(112, 139, 117, 0.5);
+  transition: fill 0.3s;
+}
+.settings-btn:hover > svg {
+  fill: var(--main-color);
+}
+.settings-btn:active > svg {
+  fill: rgba(112, 139, 117, 0.75);
 }
 
 .social-links-list {
@@ -116,6 +130,15 @@
   gap: 20px;
   position: absolute;
   right: 20px;
+}
+.social-link > svg {
+  transition: fill 0.3s;
+}
+.social-link:hover > svg {
+  fill: var(--main-color) !important;
+}
+.social-link:active > svg {
+  fill: rgba(112, 139, 117, 0.75) !important;
 }
 .social-links-list-item:first-child > .social-link > svg {
   width: 35px;
@@ -135,6 +158,8 @@
 
 .profile-content {
   padding: 40px 60px 0;
+  display: flex;
+  gap: 30px;
 }
 .my-info {
   display: flex;
@@ -160,12 +185,29 @@
   justify-content: space-between;
   width: 443px;
 }
+.profile-list-btn > svg {
+  fill: rgba(112, 139, 117, 0.75);
+  transition: fill 0.3s;
+}
+.profile-list-btn > svg:hover {
+  fill: var(--main-color);
+  cursor: pointer;
+}
+.profile-list-btn > svg:active {
+  fill: rgba(112, 139, 117, 0.5);
+}
 
 .my-post {
   border: none;
   border-radius: 30px 30px 0px 0px;
   background: #fff;
   padding: 30px 30px 17px;
+  height: 598px;
+}
+.my-post-main-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .my-post-user-info {
   display: flex;
@@ -183,6 +225,123 @@
   font-size: 14px;
   font-weight: 500;
   line-height: normal;
+}
+.my-post-detail-btn {
+  cursor: pointer;
+}
+.my-post-detail-btn > svg {
+  fill: var(--main-color);
+  fill-opacity: 0.5;
+  transition: fill-opacity 0.3s;
+}
+.my-post-detail-btn:hover > svg {
+  fill-opacity: 1;
+  cursor: pointer;
+}
+
+.my-post-main-container:nth-child(2) {
+  margin-top: 12px;
+}
+.my-post-text-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.my-post-text,
+.my-post-tag {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: normal;
+}
+.my-post-text {
+  color: var(--main-color);
+}
+.my-post-detail-btn {
+  border: none;
+  background-color: transparent;
+}
+.my-post-btn-list {
+  display: flex;
+  gap: 20px;
+}
+.my-post-btn {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.my-post-main-container:last-child {
+  margin-top: 10px;
+}
+.my-post-img-list {
+  display: flex;
+  max-width: 856px;
+  max-height: 539px;
+  gap: 12px;
+}
+.my-post-img-list-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.my-content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.my-content-list-item {
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 15px 15px 40px 30px;
+}
+.my-content-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.my-content-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.profile-content-title,
+.profile-content-count {
+  color: var(--main-color);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: normal;
+}
+.profile-content-count {
+  color: rgba(112, 139, 117, 0.5);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+}
+.my-content-plus-btn {
+  border: none;
+  background-color: transparent;
+}
+.my-content-plus-btn > svg {
+  fill: rgba(112, 139, 117, 0.75);
+  transition: fill 0.3s;
+}
+.my-content-plus-btn:hover > svg {
+  fill: var(--main-color);
+  cursor: pointer;
+}
+.my-content-plus-btn:active > svg {
+  fill: rgba(112, 139, 117, 0.50);
+}
+.my-content-posts-list {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .backdrop {
@@ -294,12 +453,12 @@
 }
 .avatar-delete-btn {
   background-color: transparent;
-  border: 2px solid #EDAFB8;
-  color: #EDAFB8;
+  border: 2px solid #edafb8;
+  color: #edafb8;
   transition: all 0.3s;
 }
 .avatar-delete-btn:hover {
-  background-color: #EDAFB8;
+  background-color: #edafb8;
   color: #fff;
   cursor: pointer;
 }

@@ -18,15 +18,20 @@ import {
   InstagramSvg,
   FullLogoSvg,
   CloseSvg,
+  DetailSvg,
 } from "../components/Svg.js";
-import { useAuth } from "../utils/authContext.js";
+import NoPhotoBig from "../img/no-photo-big.jpg";
+import NoPhotoMedium from "../img/no-photo-medium.jpg";
+import NoPhotoSmall from "../img/no-photo-small.jpg";
+import NoVideoSmall from "../img/no-video-small.jpg";
+import { MiniLoader, MediumLoader } from "../components/Loader.js";
 import axios from "axios";
 import AllUserProfile from "../utils/getUser.js";
 import { UploadAvatar, getUserProfile } from "../utils/DifferentUtils.js";
 
 const UserProfile = () => {
   const [userAvatar, setUserAvatar] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const id = window.location.pathname.split("/profile/")[1];
 
@@ -38,8 +43,10 @@ const UserProfile = () => {
         );
         const userData = response.data.user;
         setUserAvatar(userData.avatar);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user profile:", error.message);
+        setIsLoading(true);
       }
     };
 
@@ -53,7 +60,17 @@ const UserProfile = () => {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MediumLoader />
+        </div>
       ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "200px", height: "200px" }}
@@ -68,7 +85,7 @@ const UserProfile = () => {
 };
 const SmallUserProfile = () => {
   const [userAvatar, setUserAvatar] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const id = window.location.pathname.split("/profile/")[1];
 
@@ -80,8 +97,10 @@ const SmallUserProfile = () => {
         );
         const userData = response.data.user;
         setUserAvatar(userData.avatar);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user profile:", error.message);
+        setIsLoading(true);
       }
     };
 
@@ -95,7 +114,17 @@ const SmallUserProfile = () => {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <div
+          style={{
+            width: "60px",
+            height: "60px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MiniLoader />
+        </div>
       ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "60px", height: "60px" }}
@@ -156,9 +185,27 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
 
       console.log(response.data);
       console.log("File uploaded successfully");
-      // window.location.reload();
     } catch (error) {
       console.error("Error uploading file", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.delete(
+        "https://catopia-backend.onrender.com/profile/delete",
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+      console.log("File deleted successfully");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting file", error);
     }
   };
 
@@ -198,6 +245,7 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
                 <button
                   type="button"
                   className="avatar-delete-btn"
+                  onClick={handleDelete}
                 >
                   Delete
                 </button>
@@ -363,11 +411,15 @@ const Profile = () => {
                       <UserDate />
                     </div>
                   </div>
-                  <button className="my-post-detail-btn"></button>
+                  <button className="my-post-detail-btn">
+                    <DetailSvg />
+                  </button>
                 </div>
                 <div className="my-post-main-container">
                   <div className="my-post-text-container">
-                    <p className="my-post-tag">#Cats</p>
+                    <a href="#" className="my-post-tag link hashtag">
+                      #Cute
+                    </a>
                     <p className="my-post-text">cats</p>
                   </div>
                   <ul className="my-post-btn-list list">
@@ -391,10 +443,17 @@ const Profile = () => {
                 <div className="my-post-main-container">
                   <ul className="my-post-img-list list">
                     <li className="my-post-img-list-item">
-                      <img src="" alt="" />
+                      <img src={NoPhotoBig} alt="" />
                     </li>
                     <li className="my-post-img-list-item">
-                      <img src="" alt="" />
+                      <ul className="my-post-img-list-list list">
+                        <li className="my-post-img-list-list-item">
+                          <img src={NoPhotoMedium} alt="" />
+                        </li>
+                        <li className="my-post-img-list-list-item">
+                          <img src={NoPhotoMedium} alt="" />
+                        </li>
+                      </ul>
                     </li>
                   </ul>
                 </div>
@@ -407,17 +466,31 @@ const Profile = () => {
                     <p className="profile-content-title">My photos</p>
                     <p className="profile-content-count">21</p>
                   </div>
-                  <button className="my-content-plus-btn"></button>
+                  <button className="my-content-plus-btn">
+                    <PlusSvg />
+                  </button>
                 </div>
                 <ul className="my-content-posts-list list">
                   <li className="my-content-post">
-                    <img className="my-content-post-img" src="" alt="" />
+                    <img
+                      className="my-content-post-img"
+                      src={NoPhotoSmall}
+                      alt=""
+                    />
                   </li>
                   <li className="my-content-post">
-                    <img className="my-content-post-img" src="" alt="" />
+                    <img
+                      className="my-content-post-img"
+                      src={NoPhotoSmall}
+                      alt=""
+                    />
                   </li>
                   <li className="my-content-post">
-                    <img className="my-content-post-img" src="" alt="" />
+                    <img
+                      className="my-content-post-img"
+                      src={NoPhotoSmall}
+                      alt=""
+                    />
                   </li>
                 </ul>
               </li>
@@ -427,17 +500,31 @@ const Profile = () => {
                     <p className="profile-content-title">My videos</p>
                     <p className="profile-content-count">21</p>
                   </div>
-                  <button className="my-content-plus-btn"></button>
+                  <button className="my-content-plus-btn">
+                    <PlusSvg />
+                  </button>
                 </div>
                 <ul className="my-content-posts-list list">
                   <li className="my-content-post">
-                    <img className="my-content-post-img" src="" alt="" />
+                    <img
+                      className="my-content-post-img"
+                      src={NoVideoSmall}
+                      alt=""
+                    />
                   </li>
                   <li className="my-content-post">
-                    <img className="my-content-post-img" src="" alt="" />
+                    <img
+                      className="my-content-post-img"
+                      src={NoVideoSmall}
+                      alt=""
+                    />
                   </li>
                   <li className="my-content-post">
-                    <img className="my-content-post-img" src="" alt="" />
+                    <img
+                      className="my-content-post-img"
+                      src={NoVideoSmall}
+                      alt=""
+                    />
                   </li>
                 </ul>
               </li>

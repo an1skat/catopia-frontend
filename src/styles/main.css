@@ -38,6 +38,9 @@ img {
 .link {
   text-decoration: none;
 }
+.hashtag {
+  color: var(--accent-color);
+}
 
 .visually-hidden {
   position: absolute;
@@ -194,6 +197,7 @@ hr {
   font-weight: 800;
   line-height: normal;
   letter-spacing: 4.8px;
+  text-transform: uppercase;
 }
 .why-cats-list {
   display: flex;

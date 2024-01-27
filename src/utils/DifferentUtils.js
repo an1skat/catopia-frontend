@@ -3,13 +3,13 @@ import { useAuth } from "../utils/authContext.js";
 import axios from "axios";
 import { AvatarSvg } from "../components/Svg.js";
 import AllUserProfile from "./getUser.js";
+import { MediumLoader } from "../components/Loader.js";
 
 export const UploadAvatar = ({ onFileChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isImageClicked, setIsImageClicked] = useState(false);
-  const {userAvatar} = AllUserProfile();
-
+  const { userAvatar } = AllUserProfile();
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -27,11 +27,11 @@ export const UploadAvatar = ({ onFileChange }) => {
 
   const handleImageClick = () => {
     if (!isImageClicked) {
-      console.log('Image clicked!');
+      console.log("Image clicked!");
       setIsImageClicked(true);
     }
   };
-  
+
   return (
     <div>
       {console.log("userAvatar:", userAvatar)}
@@ -41,31 +41,48 @@ export const UploadAvatar = ({ onFileChange }) => {
         <label>
           {selectedFile ? (
             <img
-              style={{ borderRadius: '50%', width: '200px', height: '200px', cursor: 'pointer' }}
+              style={{
+                borderRadius: "50%",
+                width: "200px",
+                height: "200px",
+                cursor: "pointer",
+              }}
               src={URL.createObjectURL(selectedFile)}
               alt="User Avatar"
               onClick={handleImageClick}
             />
           ) : userAvatar !== null ? (
             <img
-              style={{ borderRadius: '50%', width: '200px', height: '200px', cursor: 'pointer' }}
+              style={{
+                borderRadius: "50%",
+                width: "200px",
+                height: "200px",
+                cursor: "pointer",
+              }}
               src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
               alt="User Avatar"
               onClick={handleImageClick}
             />
           ) : (
-            <AvatarSvg
-              style={{ cursor: 'pointer' }}
-              onClick={handleImageClick}
-            />
+            <div
+              style={{
+                width: "200px",
+                height: "200px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <MediumLoader />
+            </div>
           )}
           <input
             type="file"
             id="fileInput"
             accept="image/*"
-            style={{ opacity: '0', position: 'absolute' }}
+            style={{ opacity: "0", position: "absolute" }}
             onChange={handleFileChange}
-            name='file'
+            name="file"
           />
         </label>
       )}
@@ -74,21 +91,23 @@ export const UploadAvatar = ({ onFileChange }) => {
 };
 
 export const getAllUsers = async () => {
-    try {
-        const response = await axios.get('https://catopia-backend.onrender.com/getAllUsers');
-        return response.data;
-    }
-    catch (err) {
-        console.error('Error fetching users:', err.message);
-    }
-}
+  try {
+    const response = await axios.get(
+      "https://catopia-backend.onrender.com/getAllUsers"
+    );
+    return response.data;
+  } catch (err) {
+    console.error("Error fetching users:", err.message);
+  }
+};
 
 export const getUserProfile = async (id) => {
-    try {
-        const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
-        return console.log("Response:", response.data);
-    }
-    catch (err) {
-        console.error('Error fetching user profile:', err.message);
-    }
-}
+  try {
+    const response = await axios.get(
+      `https://catopia-backend.onrender.com/getUser/${id}`
+    );
+    return console.log("Response:", response.data);
+  } catch (err) {
+    console.error("Error fetching user profile:", err.message);
+  }
+};

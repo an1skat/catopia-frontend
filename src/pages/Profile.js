@@ -38,12 +38,12 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8888/getUser/${id}`);
+        const response = await axios.get(
+          `https://catopia-backend.onrender.com/getUser/${id}`
+        );
         const userData = response.data.user;
-        if (userData.avatar && userData.avatar.gfs) {
-          const avatarId = userData.avatar.gfs.fileId;
-          const imageUrl = `http://localhost:8888/avatar/${avatarId}`;
-          setUserAvatar(imageUrl);
+        if (userData.avatar) {
+          setUserAvatar(userData.avatar);
         }
         setIsLoading(false);
       } catch (error) {
@@ -51,13 +51,11 @@ const UserProfile = () => {
         setIsLoading(true);
       }
     };
-  
-    fetchData();
-  
+
     const intervalId = setInterval(() => {
       fetchData();
-    }, 1000);
-  
+    }, 100);
+
     return () => {
       clearInterval(intervalId);
     };

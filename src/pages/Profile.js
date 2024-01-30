@@ -38,24 +38,31 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://catopia-backend.onrender.com/getUser/${id}`
-        );
+        const response = await axios.get(`http://localhost:8888/getUser/${id}`);
         const userData = response.data.user;
-        setUserAvatar(userData.avatar);
+        if (userData.avatar && userData.avatar.gfs) {
+          const avatarId = userData.avatar.gfs.fileId;
+          const imageUrl = `http://localhost:8888/avatar/${avatarId}`;
+          setUserAvatar(imageUrl);
+        }
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user profile:", error.message);
         setIsLoading(true);
       }
     };
-
+  
+    fetchData();
+  
     const intervalId = setInterval(() => {
       fetchData();
-    }, 100);
-
-    return () => clearInterval(intervalId); // Очистка интервала при размонтировании компонента
-  }, []);
+    }, 1000);
+  
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [id]);
+  
 
   return (
     <div>
@@ -74,7 +81,7 @@ const UserProfile = () => {
       ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "200px", height: "200px" }}
-          src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
+          src={userAvatar}
           alt="User Avatar"
         />
       ) : (
@@ -83,8 +90,10 @@ const UserProfile = () => {
     </div>
   );
 };
+
 const SmallUserProfile = () => {
   const [userAvatar, setUserAvatar] = useState(null);
+  const [storedAvatar, setStoredAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const id = window.location.pathname.split("/profile/")[1];
@@ -96,7 +105,9 @@ const SmallUserProfile = () => {
           `https://catopia-backend.onrender.com/getUser/${id}`
         );
         const userData = response.data.user;
-        setUserAvatar(userData.avatar);
+        if (userData.avatar) {
+          setUserAvatar(userData.avatar);
+        }
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user profile:", error.message);
@@ -108,8 +119,10 @@ const SmallUserProfile = () => {
       fetchData();
     }, 100);
 
-    return () => clearInterval(intervalId); // Очистка интервала при размонтировании компонента
-  }, []);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [id]);
 
   return (
     <div>
@@ -128,7 +141,7 @@ const SmallUserProfile = () => {
       ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "60px", height: "60px" }}
-          src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
+          src={userAvatar}
           alt="User Avatar"
         />
       ) : (
@@ -137,6 +150,7 @@ const SmallUserProfile = () => {
     </div>
   );
 };
+
 const UserName = () => {
   const { userName } = AllUserProfile();
   const userProfile = AllUserProfile();
@@ -156,25 +170,25 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
 
   const handleConfirm = async () => {
     const authToken = localStorage.getItem("authToken");
-
+  
     console.log(selectedFile);
-
+  
     if (!selectedFile) {
       throw new Error("No file selected");
     }
-
+  
     if (!authToken) {
       throw new Error("Unauthorized");
     }
-
+  
     try {
       onConfirm(selectedFile);
-
+  
       const formData = new FormData();
       formData.append("file", selectedFile);
-
+  
       const response = await axios.post(
-        "https://catopia-backend.onrender.com/profile/upload",
+        "http://localhost:8888/profile/upload",
         formData,
         {
           headers: {
@@ -182,13 +196,16 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
           },
         }
       );
-
+  
       console.log(response.data);
       console.log("File uploaded successfully");
     } catch (error) {
       console.error("Error uploading file", error);
     }
   };
+  
+  
+  
 
   const handleDelete = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -280,7 +297,7 @@ const Profile = () => {
       );
       const userData = response.data.user;
       setUserProfile(userData);
-      setAvatar(userData.avatar); // Предположим, что информация о пользователе содержит поле "avatar"
+      setAvatar(userData.avatar); 
     } catch (error) {
       console.error("Error fetching user profile:", error.message);
     }

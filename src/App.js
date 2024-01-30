@@ -17,10 +17,13 @@ import ScrollControl from "./utils/scrollControl";
 import ScrollToTop from "./utils/scrollToTop";
 import RedirectAfterAuth from "./subpages/RedirectAfterAuth";
 import AllUserProfile from "./utils/getUser";
+import { catData } from "./components/CatsInfo";
+import AboutCatsCardPage from "./pages/AboutCatsCardPage";
 
 function App() {
   const location = useLocation();
   const { userId } = AllUserProfile();
+  const catId = catData.map(cat => cat.url);
 
   const hide =
     location.pathname === "/register" ||
@@ -42,6 +45,7 @@ function App() {
         <Route path="/auth/me" element={<AuthMe />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about-cats" element={<AboutCats />} />
+        <Route path="/about-cats/:catId" element={<AboutCatsCardPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPass />} />

@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/catopia-frontend/static/css/main.fe143546.css",
-    "main.js": "/catopia-frontend/static/js/main.a9e2d611.js",
+    "main.js": "/catopia-frontend/static/js/main.4cca80f5.js",
     "static/media/orange-and-grey-cats-img.png": "/catopia-frontend/static/media/orange-and-grey-cats-img.ae3620e894d392c50873.png",
     "static/media/about-hero-bg.jpg": "/catopia-frontend/static/media/about-hero-bg.05e6743c706ec278b100.jpg",
     "static/media/footer-img.png": "/catopia-frontend/static/media/footer-img.fbc6950677e614231098.png",
@@ -44,10 +44,10 @@
     "static/media/paw.svg": "/catopia-frontend/static/media/paw.ec0903b117246f985a69.svg",
     "index.html": "/catopia-frontend/index.html",
     "main.fe143546.css.map": "/catopia-frontend/static/css/main.fe143546.css.map",
-    "main.a9e2d611.js.map": "/catopia-frontend/static/js/main.a9e2d611.js.map"
+    "main.4cca80f5.js.map": "/catopia-frontend/static/js/main.4cca80f5.js.map"
   },
   "entrypoints": [
     "static/css/main.fe143546.css",
-    "static/js/main.a9e2d611.js"
+    "static/js/main.4cca80f5.js"
   ]
 }

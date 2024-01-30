@@ -15,12 +15,9 @@ const UserProfile = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    axios
-      .get("https://catopia-backend.onrender.com/getAvatar", {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
+    axios.get(
+      `https://catopia-backend.onrender.com/getUser/${userId}`
+    )
       .then((response) => {
         const avatarFileName = response.data.avatar;
 

@@ -15,25 +15,30 @@ const UserProfile = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    axios.get(
-      `https://catopia-backend.onrender.com/getUser/${userId}`
-    )
-      .then((response) => {
-        const avatarFileName = response.data.avatar;
-
-        if (typeof avatarFileName === "string" && avatarFileName !== "null") {
-          setAvatar(avatarFileName);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://catopia-backend.onrender.com/getUser/`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        const userData = response.data.user;
+        if (userData.avatar) {
+          setAvatar(userData.avatar);
         } else {
-          setAvatar(null);
+          return null;
         }
-      })
-      .catch((error) => {
-        console.error(error);
-        setAvatar(null);
-      })
-      .finally(() => {
         setIsLoading(false);
-      });
+      } catch (error) {
+        console.error("Error fetching user profile:", error.message);
+        setIsLoading(true);
+      }
+    };
+
+    fetchData();
   }, [authToken]);
 
   return (

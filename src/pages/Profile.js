@@ -79,7 +79,7 @@ const UserProfile = () => {
       ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "200px", height: "200px" }}
-          src={userAvatar}
+          src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
           alt="User Avatar"
         />
       ) : (
@@ -139,7 +139,7 @@ const SmallUserProfile = () => {
       ) : userAvatar !== null ? (
         <img
           style={{ borderRadius: "50%", width: "60px", height: "60px" }}
-          src={userAvatar}
+          src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
           alt="User Avatar"
         />
       ) : (

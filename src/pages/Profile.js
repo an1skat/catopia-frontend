@@ -186,7 +186,7 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
       formData.append("file", selectedFile);
   
       const response = await axios.post(
-        "http://localhost:8888/profile/upload",
+        "https://catopia-backend.onrender.com/profile/upload",
         formData,
         {
           headers: {

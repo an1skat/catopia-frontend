@@ -9,7 +9,6 @@ export const UploadAvatar = ({ onFileChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isImageClicked, setIsImageClicked] = useState(false);
-  const { userAvatar } = AllUserProfile();
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -34,7 +33,6 @@ export const UploadAvatar = ({ onFileChange }) => {
 
   return (
     <div>
-      {console.log("userAvatar:", userAvatar)}
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -51,7 +49,7 @@ export const UploadAvatar = ({ onFileChange }) => {
               alt="User Avatar"
               onClick={handleImageClick}
             />
-          ) : userAvatar !== null ? (
+          ) : localStorage.getItem("userAvatar") !== null ? (
             <img
               style={{
                 borderRadius: "50%",
@@ -59,7 +57,7 @@ export const UploadAvatar = ({ onFileChange }) => {
                 height: "200px",
                 cursor: "pointer",
               }}
-              src={`https://catopia-backend.onrender.com/uploads/${userAvatar}`}
+              src={localStorage.getItem("userAvatar")}
               alt="User Avatar"
               onClick={handleImageClick}
             />

@@ -5,9 +5,7 @@ import { useAuth } from "../utils/authContext.js";
 import { PersonSvg, NotificationsSvg } from "../components/Svg.js";
 import { MiniLoader } from "./Loader.js";
 import UserId from "../utils/Userid.js";
-import axios from "axios";
 const UserProfile = () => {
-  const { authToken } = useAuth();
   const [avatar, setAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = UserId();
@@ -15,31 +13,17 @@ const UserProfile = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://catopia-backend.onrender.com/getUser/`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
-        const userData = response.data.user;
-        if (userData.avatar) {
-          setAvatar(userData.avatar);
-        } else {
-          return null;
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching user profile:", error.message);
-        setIsLoading(true);
+    const fetchData = () => {
+      const storedAvatar = localStorage.getItem('userAvatar');
+      if (storedAvatar) {
+        setAvatar(storedAvatar);
       }
+
+      setIsLoading(false);
     };
 
     fetchData();
-  }, [authToken]);
+  }, []);
 
   return (
     <div>
@@ -47,11 +31,11 @@ const UserProfile = () => {
         <div style={{ width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <MiniLoader />
         </div>
-      ) : avatar !== null ? (
+      ) : avatar ? (
         <Link to={`/profile/${userId}`}>
           <img
             style={{ borderRadius: "50%", width: "40px", height: "40px" }}
-            src={`https://catopia-backend.onrender.com/uploads/${avatar}`}
+            src={avatar}
             alt="User Avatar"
           />
         </Link>

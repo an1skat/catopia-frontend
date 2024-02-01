@@ -168,7 +168,7 @@ img {
 .dropdown-list-item {
   border-bottom: 2px solid rgba(112, 139, 117, 0.75);
   overflow: hidden;
-  transition: dropdownClose 0.3s ease-out; 
+  
   animation: dropdownClose 0.3s ease-out;
   max-height: 376px;
 }

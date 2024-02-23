@@ -72,7 +72,6 @@ const Register = () => {
       };
   
       try {
-        // Все проверки
         const newFormErrors = {};
   
         // Проверка почты

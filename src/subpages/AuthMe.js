@@ -38,7 +38,7 @@ const AuthMe = () => {
         console.log("Login successful");
 
         authContext.setLoginStatus(true);
-        authContext.setAuthToken(authToken); // Используйте тот же токен
+        authContext.setAuthToken(authToken);
         console.log(
           "After setLoginStatus and setAuthToken",
           authContext.setLoginStatus,
@@ -48,7 +48,7 @@ const AuthMe = () => {
       } catch (error) {
         console.error("Login failed", error);
         authContext.setLoginStatus(false);
-        navigate('/home'); // Переходите на /home только при неудачном логине
+        navigate('/home');
       }
     };
 

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/catopia-frontend/static/css/main.bf663f0a.css",
-    "main.js": "/catopia-frontend/static/js/main.77e11e17.js",
+    "main.css": "/catopia-frontend/static/css/main.29760092.css",
+    "main.js": "/catopia-frontend/static/js/main.d955aafc.js",
     "static/media/orange-and-grey-cats-img.png": "/catopia-frontend/static/media/orange-and-grey-cats-img.ae3620e894d392c50873.png",
     "static/media/about-hero-bg.jpg": "/catopia-frontend/static/media/about-hero-bg.05e6743c706ec278b100.jpg",
     "static/media/footer-img.png": "/catopia-frontend/static/media/footer-img.fbc6950677e614231098.png",
@@ -38,16 +38,17 @@
     "static/media/burmila-cat.png": "/catopia-frontend/static/media/burmila-cat.c341c11c41b1582de749.png",
     "static/media/cat-card-bg.png": "/catopia-frontend/static/media/cat-card-bg.4c3dd68b2055875eaac6.png",
     "static/media/bombay-cat.png": "/catopia-frontend/static/media/bombay-cat.ca7825e257eea77d97cc.png",
+    "static/media/main-avatar.png": "/catopia-frontend/static/media/main-avatar.38bc5721b6e09f52acc0.png",
     "static/media/footer-bg.jpg": "/catopia-frontend/static/media/footer-bg.4a06f37c084e9c28d0fb.jpg",
     "static/media/paw1.svg": "/catopia-frontend/static/media/paw1.f39cb8c6b1cc2c4a97e9.svg",
     "static/media/paw2.svg": "/catopia-frontend/static/media/paw2.17eac09e674b1210564b.svg",
     "static/media/paw.svg": "/catopia-frontend/static/media/paw.ec0903b117246f985a69.svg",
     "index.html": "/catopia-frontend/index.html",
-    "main.bf663f0a.css.map": "/catopia-frontend/static/css/main.bf663f0a.css.map",
-    "main.77e11e17.js.map": "/catopia-frontend/static/js/main.77e11e17.js.map"
+    "main.29760092.css.map": "/catopia-frontend/static/css/main.29760092.css.map",
+    "main.d955aafc.js.map": "/catopia-frontend/static/js/main.d955aafc.js.map"
   },
   "entrypoints": [
-    "static/css/main.bf663f0a.css",
-    "static/js/main.77e11e17.js"
+    "static/css/main.29760092.css",
+    "static/js/main.d955aafc.js"
   ]
 }

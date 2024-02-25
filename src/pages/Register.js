@@ -81,9 +81,9 @@ const Register = () => {
         }
   
         // Проверка имени
-        const nameRegex = /^[a-zA-Z0-9]{3,10}$/;
+        const nameRegex = /^[a-zA-Z0-9]{3,30}$/;
         if (!nameRegex.test(formData.name)) {
-          newFormErrors.name = "Имя должно содержать от 3 до 10 буквенно-цифровых символов";
+          newFormErrors.name = "Имя должно содержать от 3 до 30 буквенно-цифровых символов";
         }
   
         // Проверка пароля

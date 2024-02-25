@@ -12,6 +12,7 @@ import "../styles/about-cats-card.css";
 import { Link } from "react-router-dom";
 import Comment from "./CommetsLayout.js";
 import axios from "axios";
+import UserId from "../utils/Userid.js";
 const ToggleIcon = ({ isVisible }) => {
   return isVisible ? <MinusSvg /> : <CatsPlusSvg />;
 };
@@ -26,6 +27,7 @@ const AboutCatsCard = ({ data }) => {
   const [commentIds, setCommentIds] = useState([]);
   const [newCommentText, setNewCommentText] = useState(""); 
   const commentInputRef = useRef(null);
+  const { userId } = UserId();;
 
   const closeAllDropdowns = () => {
     setDropdown1Visible(false);
@@ -269,7 +271,7 @@ const AboutCatsCard = ({ data }) => {
           <div className="comment-container">
             <ul className="comments-list list">
               {commentIds.map((commentId) => (
-                <Comment key={commentId} commentId={commentId} />
+                <Comment key={commentId} commentId={commentId} currentUser={userId} />
               ))}
             </ul>
             <form className="comment-form" method="POST" id="comment-form">

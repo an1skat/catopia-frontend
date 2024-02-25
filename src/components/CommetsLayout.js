@@ -1,40 +1,84 @@
 import { useState, useEffect } from "react";
-import { LikeSvg, DetailSvg } from "../components/Svg";
+import { LikeSvg, DetailSvg, ActiveLikeSvg } from "../components/Svg";
 import MainAvatar from "../img/main-avatar.png";
-import axios from "axios"; // Імпортуйте axios або інший бібліотеку для HTTP-запитів
+import axios from "axios";
 
-const Comment = ({ commentId }) => {
+const Comment = ({ commentId, currentUser }) => {
   const [commentData, setCommentData] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const fetchComment = async () => {
+    try {
+      if (commentId === null) {
+        return;
+      }
+
+      const response = await axios.get(
+        `https://catopia-backend.onrender.com/comment/${commentId}/get`
+      );
+      setCommentData(response.data);
+    } catch (error) {
+      console.error("Error fetching comment:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchComment = async () => {
-      try {
-        console.log("commentId:", commentId);
-
-        if (commentId === null) {
-          return;
-        }
-
-        const response = await axios.get(
-          `https://catopia-backend.onrender.com/comment/${commentId}/get`
-        );
-        console.log("Comment data:", response.data);
-        setCommentData(response.data);
-      } catch (error) {
-        console.error("Error fetching comment:", error);
-      }
-    };
-
     if (commentId !== null) {
       fetchComment();
     }
   }, [commentId]);
 
+  useEffect(() => {
+    setIsLiked(
+      commentData &&
+        commentData.comment.likes &&
+        commentData.comment.likes.users.includes(currentUser)
+    );
+  }, [commentData, currentUser]);
+
+  const handleLikeClick = async () => {
+    try {
+      if (isLiked) {
+        await axios.get(`https://catopia-backend.onrender.com/comment/${commentId}/del`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+
+        localStorage.removeItem(`like-${commentId}`);
+        setIsLiked(false);
+      } else {
+        await axios.get(`https://catopia-backend.onrender.com/comment/${commentId}/add`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+
+        localStorage.setItem(`like-${commentId}`, true);
+        setIsLiked(true);
+      }
+
+      fetchComment();
+    } catch (error) {
+      console.error("Error liking comment:", error);
+    }
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (commentId !== null) {
+        fetchComment();
+      }
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [commentId]);
+
   if (!commentData) {
-    return null; // Поки дані не завантажилися, можна показати заглушку або нічого
+    return null;
   }
 
-  const isBigComment = commentData.comment.text.length > 50; // Припустима умова для визначення розміру коментаря
+  const isBigComment = commentData.comment.text.length > 50;
 
   return (
     <li className={`comment-list-item ${isBigComment ? "big" : ""}`}>
@@ -46,9 +90,19 @@ const Comment = ({ commentId }) => {
         <h4 className="comment-name">{commentData.user.name}</h4>
         <p className="comment-text">{commentData.comment.text}</p>
         <div className="comment-interaction">
-          <button type="button" className="comment-like">
-            <LikeSvg />
-            <span className="comment-like-count">{commentData.comment.likes}</span>
+          <button
+            type="button"
+            className={`comment-like ${isLiked ? "liked" : ""}`}
+            onClick={handleLikeClick}
+          >
+            {isLiked ? (
+              <ActiveLikeSvg className="like-svg" />
+            ) : (
+              <LikeSvg className="like-svg" />
+            )}
+            <span className="comment-like-count">
+              {commentData.comment.likes ? commentData.comment.likes.count : 0}
+            </span>
           </button>
           <button type="button" className="comment-reply">
             Reply

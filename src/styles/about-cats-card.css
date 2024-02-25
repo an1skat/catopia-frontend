@@ -297,17 +297,21 @@ img {
   align-items: center;
   gap: 10px;
 }
+.comment-like.liked > .comment-like-count {
+  color: var(--main-color);
+}
+.like-svg {
+  fill: var(--main-color);
+  transition: fill-opacity 0.3s;
+}
 .comment-like > svg {
   width: 25px;
   height: 23px;
-  fill: var(--main-color);
-  fill-opacity: 0.5;
-  transition: fill-opacity 0.3s;
 }
 .comment-like:hover {
   cursor: pointer;
 }
-.comment-like:hover > svg {
+.comment-like:hover > .like-svg  {
   fill-opacity: 1;
 }
 .comment-like:hover > .comment-like-count {

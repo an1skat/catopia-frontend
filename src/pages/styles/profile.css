@@ -274,6 +274,10 @@
   height: 40px;
   cursor: pointer;
 }
+.my-post-btn > svg {
+  fill: var(--main-color);
+  fill-opacity: 0.5;
+}
 
 .my-post-main-container:last-child {
   margin-top: 10px;

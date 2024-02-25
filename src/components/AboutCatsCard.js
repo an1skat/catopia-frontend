@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 import {
   RulerSvg,
   CatsHeartSvg,
@@ -10,6 +10,8 @@ import {
 } from "../components/Svg.js";
 import "../styles/about-cats-card.css";
 import { Link } from "react-router-dom";
+import Comment from "./CommetsLayout.js";
+import axios from "axios";
 const ToggleIcon = ({ isVisible }) => {
   return isVisible ? <MinusSvg /> : <CatsPlusSvg />;
 };
@@ -19,6 +21,11 @@ const AboutCatsCard = ({ data }) => {
   const [dropdown2Visible, setDropdown2Visible] = useState(false);
   const [dropdown3Visible, setDropdown3Visible] = useState(false);
   const [dropdown4Visible, setDropdown4Visible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [commentId, setCommentId] = useState(null);
+  const [commentIds, setCommentIds] = useState([]);
+  const [newCommentText, setNewCommentText] = useState(""); 
+  const commentInputRef = useRef(null);
 
   const closeAllDropdowns = () => {
     setDropdown1Visible(false);
@@ -46,6 +53,73 @@ const AboutCatsCard = ({ data }) => {
         break;
     }
   };
+
+  useEffect(() => {
+    const form = document.getElementById("comment-form");
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      if (isSubmitting) {
+        return;
+      }
+
+      setIsSubmitting(true);
+
+      const token = localStorage.getItem("authToken");
+
+      let elem = e.target;
+
+      let formData = {
+        text: elem.text.value,
+      };
+
+      try {
+        const response = await axios.post(
+          "https://catopia-backend.onrender.com/comment/create",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Comment created");
+        setCommentId(response.data._id || null);
+        setNewCommentText(""); 
+        commentInputRef.current.blur(); 
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
+
+    form.addEventListener("submit", handleSubmit);
+    return () => {
+      form.removeEventListener("submit", handleSubmit);
+    };
+  }, [isSubmitting]);
+
+  useEffect(() => {
+    const fetchCommentIds = async () => {
+      try {
+        const response = await axios.get("https://catopia-backend.onrender.com/comments/ids");
+        setCommentIds(response.data.commentIds);
+      } catch (error) {
+        console.error("Error fetching comment IDs:", error);
+      }
+    };
+
+    fetchCommentIds();
+
+    const intervalId = setInterval(() => {
+      fetchCommentIds();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
@@ -98,52 +172,52 @@ const AboutCatsCard = ({ data }) => {
           <ul className="dropdown-list list">
             {[1, 2, 3, 4].map((dropdownNumber) => (
               <li
-              className={`dropdown-list-item ${
-                (dropdownNumber === 1 && dropdown1Visible) ||
-                (dropdownNumber === 2 && dropdown2Visible) ||
-                (dropdownNumber === 3 && dropdown3Visible) ||
-                (dropdownNumber === 4 && dropdown4Visible)
-                  ? "active-dropdown"
-                  : ""
-              }`}
-              key={dropdownNumber}
-            >
-              <div
-                className="dropdown-header"
-                onClick={() =>
-                  toggleDropdown(
-                    dropdownNumber,
-                    dropdownNumber === 1
+                className={`dropdown-list-item ${
+                  (dropdownNumber === 1 && dropdown1Visible) ||
+                  (dropdownNumber === 2 && dropdown2Visible) ||
+                  (dropdownNumber === 3 && dropdown3Visible) ||
+                  (dropdownNumber === 4 && dropdown4Visible)
+                    ? "active-dropdown"
+                    : ""
+                }`}
+                key={dropdownNumber}
+              >
+                <div
+                  className="dropdown-header"
+                  onClick={() =>
+                    toggleDropdown(
+                      dropdownNumber,
+                      dropdownNumber === 1
+                        ? "Character"
+                        : dropdownNumber === 2
+                        ? "Diet"
+                        : dropdownNumber === 3
+                        ? "Health"
+                        : "Care"
+                    )
+                  }
+                >
+                  <p className="dropdown-title">
+                    {dropdownNumber === 1
                       ? "Character"
                       : dropdownNumber === 2
                       ? "Diet"
                       : dropdownNumber === 3
                       ? "Health"
-                      : "Care"
-                  )
-                }
-              >
-                <p className="dropdown-title">
-                  {dropdownNumber === 1
-                    ? "Character"
-                    : dropdownNumber === 2
-                    ? "Diet"
-                    : dropdownNumber === 3
-                    ? "Health"
-                    : "Care"}
-                </p>
-                <ToggleIcon
-                  isVisible={
-                    dropdownNumber === 1
-                      ? dropdown1Visible
-                      : dropdownNumber === 2
-                      ? dropdown2Visible
-                      : dropdownNumber === 3
-                      ? dropdown3Visible
-                      : dropdown4Visible
-                  }
-                />
-              </div>
+                      : "Care"}
+                  </p>
+                  <ToggleIcon
+                    isVisible={
+                      dropdownNumber === 1
+                        ? dropdown1Visible
+                        : dropdownNumber === 2
+                        ? dropdown2Visible
+                        : dropdownNumber === 3
+                        ? dropdown3Visible
+                        : dropdown4Visible
+                    }
+                  />
+                </div>
                 {dropdownNumber === 1 && dropdown1Visible && (
                   <div className="dropdown-content">
                     <p className="dropdown-text">
@@ -187,6 +261,38 @@ const AboutCatsCard = ({ data }) => {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+      <section className="comment-section">
+        <div className="container">
+          <h2 className="comment-title">LEAVE YOUR COMMENT</h2>
+          <div className="comment-container">
+            <ul className="comments-list list">
+              {commentIds.map((commentId) => (
+                <Comment key={commentId} commentId={commentId} />
+              ))}
+            </ul>
+            <form className="comment-form" method="POST" id="comment-form">
+            <input
+                name="text"
+                type="text"
+                className="comment-input"
+                placeholder="Write your comment here.."
+                value={newCommentText}
+                onChange={(e) => setNewCommentText(e.target.value)}
+                ref={commentInputRef}
+              />
+              <button type="submit" className="comment-submit">
+                Send
+              </button>
+            </form>
+          </div>
+          <p className="comment-contact-text">
+            Need important information about the breed?
+            <a href="#" className="comment-link link">
+              Contact us
+            </a>
+          </p>
         </div>
       </section>
     </>

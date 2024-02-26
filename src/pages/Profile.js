@@ -36,12 +36,9 @@ const UserProfile = () => {
   const id = window.location.pathname.split("/profile/")[1];
 
   useEffect(() => {
-    const fetchData = () => {
-      const storedAvatar = localStorage.getItem('userAvatar');
-      if (storedAvatar) {
-        setUserAvatar(storedAvatar);
-      }
-
+    const fetchData = async () => {
+      const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
+      setUserAvatar(response.data.user.avatar);
       setIsLoading(false);
     };
 
@@ -85,14 +82,13 @@ const UserProfile = () => {
 const SmallUserProfile = () => {
   const [userAvatar, setUserAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  
+  const id = window.location.pathname.split("/profile/")[1];
 
   useEffect(() => {
-    const fetchData = () => {
-      const storedAvatar = localStorage.getItem('userAvatar');
-      if (storedAvatar) {
-        setUserAvatar(storedAvatar);
-      } 
+    const fetchData = async () => {
+      const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
+      setUserAvatar(response.data.user.avatar);
 
       setIsLoading(false);
     };
@@ -155,54 +151,65 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
   const resizeImage = (inputFile) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
-  
+
       reader.onload = function (e) {
         const img = new Image();
         img.src = e.target.result;
-  
+
         img.onload = function () {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
-  
+
           // Set the canvas dimensions to the new size
           canvas.width = 200;
           canvas.height = 200;
-  
+
           // Draw the image onto the canvas
           ctx.drawImage(img, 0, 0, 200, 200);
-  
+
           // Convert the canvas content to a Blob (File)
           canvas.toBlob((blob) => {
             resolve(new File([blob], "resized.jpg", { type: "image/jpeg" }));
           }, "image/jpeg");
         };
       };
-  
+
       reader.readAsDataURL(inputFile);
     });
   };
-  
-  const convertToBase64 = async () => {
-    const resizedFile = await resizeImage(selectedFile);
-  
-    let reader = new FileReader();
-    reader.readAsDataURL(resizedFile);
-    
-    reader.onload = () => {
-      console.log(reader.result);
-      localStorage.setItem("userAvatar", reader.result);
-    };
-    
-    reader.onerror = (error) => {
-      console.log("Error: ", error);
-      setSelectedFile(null);
-    };
+
+  const convertToBase64 = async (inputFile) => {
+    const resizedFile = await resizeImage(inputFile);
+
+    return new Promise((resolve) => {
+      let reader = new FileReader();
+
+      reader.readAsDataURL(resizedFile);
+
+      reader.onload = () => {
+        console.log(reader.result);
+        localStorage.setItem("userAvatar", reader.result);
+        setSelectedFile(reader.result);
+        resolve(reader.result); // Возвращаем base64-код из промиса
+      };
+
+      reader.onerror = (error) => {
+        console.log("Error: ", error);
+        setSelectedFile(null);
+        resolve(null); // Возвращаем null в случае ошибки
+      };
+    });
   };
 
   const handleConfirm = async () => {
     const authToken = localStorage.getItem("authToken");
+    const base64Code = await convertToBase64(selectedFile);
 
-    console.log(selectedFile);
+    console.log("Selected file:", base64Code);
+
+    if (!base64Code) {
+      throw new Error("No file selected");
+    }
 
     if (!selectedFile) {
       throw new Error("No file selected");
@@ -215,21 +222,18 @@ const Modal = ({ isModalVisible, onConfirm, onClose }) => {
     try {
       onConfirm(selectedFile);
 
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-
       const response = await axios.post(
         "https://catopia-backend.onrender.com/profile/upload",
-        formData,
+        { file: base64Code }, // Отправляем base64-код напрямую
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json", // Указываем тип контента
           },
         }
       );
 
       console.log(response.data);
-      convertToBase64(selectedFile);
       console.log("File uploaded successfully");
     } catch (error) {
       console.error("Error uploading file", error);

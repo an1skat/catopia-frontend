@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { LikeSvg, DetailSvg, ActiveLikeSvg } from "../components/Svg";
-import MainAvatar from "../img/main-avatar.png";
 import axios from "axios";
 
 const Comment = ({ commentId, currentUser }) => {
   const [commentData, setCommentData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [userAvatar, setUserAvatar] = useState(null);
 
   const fetchComment = async () => {
     try {
@@ -17,6 +17,8 @@ const Comment = ({ commentId, currentUser }) => {
         `https://catopia-backend.onrender.com/comment/${commentId}/get`
       );
       setCommentData(response.data);
+      setUserAvatar(response.data.user.avatar);
+      
     } catch (error) {
       console.error("Error fetching comment:", error);
     }
@@ -74,7 +76,7 @@ const Comment = ({ commentId, currentUser }) => {
     return () => clearInterval(intervalId);
   }, [commentId]);
 
-  if (!commentData) {
+  if (!commentData || !userAvatar) {
     return null;
   }
 
@@ -82,7 +84,7 @@ const Comment = ({ commentId, currentUser }) => {
 
   return (
     <li className={`comment-list-item ${isBigComment ? "big" : ""}`}>
-      <img src={MainAvatar} alt="main avatar" className="comment-avatar" />
+      <img src={userAvatar} alt="user avatar" className="comment-avatar" />
       <div className="main-info-comment">
         <button type="button" className="comment-detail">
           <DetailSvg />

@@ -36,11 +36,6 @@ const UserId = () => {
     fetchData();
   }, [AuthToken]);
 
-  console.log("User:", user);
-  console.log("User ID:", userId);
-  console.log("User Name:", userName);
-  console.log("User Avatar:", userAvatar);
-
   return {
     userId: user ? user._id : null,
     userName: user ? user.name : null,

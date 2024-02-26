@@ -8,7 +8,6 @@ const AllUserProfile = () => {
   const [userProfile, setUserProfile] = useState(null);
 
   const id = window.location.pathname.split("/profile/")[1];
-  console.log("id:", id);
 
   const fetchUserProfile = async () => {
     try {
@@ -24,13 +23,17 @@ const AllUserProfile = () => {
   };
 
   useEffect(() => {
+    // Initial fetch
     fetchUserProfile();
-  }, [id]);
 
-  console.log("User:", userProfile);
-  console.log("User ID:", userId);
-  console.log("User Name:", userName);
-  console.log("User Avatar:", userAvatar);
+    // Fetch every second
+    const intervalId = setInterval(() => {
+      fetchUserProfile();
+    }, 1000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [id]);
 
   return {
     userId: userProfile ? userProfile._id : null,

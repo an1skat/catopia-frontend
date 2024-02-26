@@ -170,29 +170,9 @@ img {
 .dropdown-list-item {
   border-bottom: 2px solid rgba(112, 139, 117, 0.75);
   overflow: hidden;
-
-  animation: dropdownClose 0.3s ease-out;
-  max-height: 376px;
-}
-@keyframes dropdownOpen {
-  from {
-    max-height: 140px;
-  }
-  to {
-    max-height: 376px;
-  }
-}
-@keyframes dropdownClose {
-  from {
-    max-height: 376px;
-  }
-  to {
-    max-height: 140px;
-  }
 }
 .dropdown-list-item.active-dropdown {
   border-bottom-color: var(--main-color);
-  animation: dropdownOpen 0.3s ease-out;
 }
 .dropdown-header {
   display: flex;

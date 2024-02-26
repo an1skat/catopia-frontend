@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   RulerSvg,
   CatsHeartSvg,
@@ -25,9 +25,9 @@ const AboutCatsCard = ({ data }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentId, setCommentId] = useState(null);
   const [commentIds, setCommentIds] = useState([]);
-  const [newCommentText, setNewCommentText] = useState(""); 
+  const [newCommentText, setNewCommentText] = useState("");
   const commentInputRef = useRef(null);
-  const { userId } = UserId();;
+  const { userId } = UserId();
 
   const closeAllDropdowns = () => {
     setDropdown1Visible(false);
@@ -56,6 +56,8 @@ const AboutCatsCard = ({ data }) => {
     }
   };
 
+  const catId = data.id;
+
   useEffect(() => {
     const form = document.getElementById("comment-form");
     const handleSubmit = async (e) => {
@@ -73,6 +75,7 @@ const AboutCatsCard = ({ data }) => {
 
       let formData = {
         text: elem.text.value,
+        cat: catId,
       };
 
       try {
@@ -89,8 +92,8 @@ const AboutCatsCard = ({ data }) => {
 
         console.log("Comment created");
         setCommentId(response.data._id || null);
-        setNewCommentText(""); 
-        commentInputRef.current.blur(); 
+        setNewCommentText("");
+        commentInputRef.current.blur();
       } catch (err) {
         console.log(err);
       } finally {
@@ -107,7 +110,9 @@ const AboutCatsCard = ({ data }) => {
   useEffect(() => {
     const fetchCommentIds = async () => {
       try {
-        const response = await axios.get("https://catopia-backend.onrender.com/comments/ids");
+        const response = await axios.get(
+          `https://catopia-backend.onrender.com/comments/ids?catId=${catId}`
+        );
         setCommentIds(response.data.commentIds);
       } catch (error) {
         console.error("Error fetching comment IDs:", error);
@@ -271,11 +276,15 @@ const AboutCatsCard = ({ data }) => {
           <div className="comment-container">
             <ul className="comments-list list">
               {commentIds.map((commentId) => (
-                <Comment key={commentId} commentId={commentId} currentUser={userId} />
+                <Comment
+                  key={commentId}
+                  commentId={commentId}
+                  currentUser={userId}
+                />
               ))}
             </ul>
             <form className="comment-form" method="POST" id="comment-form">
-            <input
+              <input
                 name="text"
                 type="text"
                 className="comment-input"

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { LikeSvg, DetailSvg, ActiveLikeSvg } from "../components/Svg";
+import MainAvatar from "../img/main-avatar.png";
 import axios from "axios";
 
 const Comment = ({ commentId, currentUser }) => {
@@ -17,7 +18,8 @@ const Comment = ({ commentId, currentUser }) => {
         `https://catopia-backend.onrender.com/comment/${commentId}/get`
       );
       setCommentData(response.data);
-      setUserAvatar(response.data.user.avatar);
+      console.log("commentData:", response.data);
+      setUserAvatar(response.data.user.avatar || MainAvatar);
       
     } catch (error) {
       console.error("Error fetching comment:", error);

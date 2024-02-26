@@ -7,10 +7,13 @@ const AllUserProfile = () => {
   const [userAvatar, setUserAvatar] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
 
-  const id = window.location.pathname.split("/profile/")[1];
+  const id = window.location.pathname.split("/profile/")[1] || userId;
 
   const fetchUserProfile = async () => {
     try {
+      if (id === null) {
+        return;
+      }
       const response = await axios.get(`https://catopia-backend.onrender.com/getUser/${id}`);
       const userData = response.data.user;
       setUserProfile(userData);
@@ -29,7 +32,7 @@ const AllUserProfile = () => {
     // Fetch every second
     const intervalId = setInterval(() => {
       fetchUserProfile();
-    }, 1000);
+    }, 10000);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);

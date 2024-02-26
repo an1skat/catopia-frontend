@@ -110,10 +110,12 @@ const AboutCatsCard = ({ data }) => {
   useEffect(() => {
     const fetchCommentIds = async () => {
       try {
+        console.log("catId:", catId);
         const response = await axios.get(
           `https://catopia-backend.onrender.com/comments/ids?catId=${catId}`
         );
         setCommentIds(response.data.commentIds);
+        console.log("Comment IDs:", response.data.commentIds);
       } catch (error) {
         console.error("Error fetching comment IDs:", error);
       }

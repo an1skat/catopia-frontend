@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/catopia-frontend/static/css/main.2a2ebf71.css",
-    "main.js": "/catopia-frontend/static/js/main.33d1a925.js",
+    "main.css": "/catopia-frontend/static/css/main.108fd599.css",
+    "main.js": "/catopia-frontend/static/js/main.4c764044.js",
     "static/media/orange-and-grey-cats-img.png": "/catopia-frontend/static/media/orange-and-grey-cats-img.ae3620e894d392c50873.png",
     "static/media/about-hero-bg.jpg": "/catopia-frontend/static/media/about-hero-bg.05e6743c706ec278b100.jpg",
     "static/media/footer-img.png": "/catopia-frontend/static/media/footer-img.fbc6950677e614231098.png",
@@ -44,11 +44,11 @@
     "static/media/paw2.svg": "/catopia-frontend/static/media/paw2.17eac09e674b1210564b.svg",
     "static/media/paw.svg": "/catopia-frontend/static/media/paw.ec0903b117246f985a69.svg",
     "index.html": "/catopia-frontend/index.html",
-    "main.2a2ebf71.css.map": "/catopia-frontend/static/css/main.2a2ebf71.css.map",
-    "main.33d1a925.js.map": "/catopia-frontend/static/js/main.33d1a925.js.map"
+    "main.108fd599.css.map": "/catopia-frontend/static/css/main.108fd599.css.map",
+    "main.4c764044.js.map": "/catopia-frontend/static/js/main.4c764044.js.map"
   },
   "entrypoints": [
-    "static/css/main.2a2ebf71.css",
-    "static/js/main.33d1a925.js"
+    "static/css/main.108fd599.css",
+    "static/js/main.4c764044.js"
   ]
 }

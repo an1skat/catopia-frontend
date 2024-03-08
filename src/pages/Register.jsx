@@ -9,9 +9,9 @@ import {
   FacebookSvg,
   TwitterSvg,
   LogoSvg,
-} from "../components/Svg.js";
+} from "../components/Svg.jsx";
 import cats from "../img/orange-and-grey-cats-img.png";
-import { togglePasswordVisibility } from "../utils/passwordVisibility.js";
+import { togglePasswordVisibility } from "../utils/passwordVisibility.jsx";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 

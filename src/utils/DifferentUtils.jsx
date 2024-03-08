@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../utils/authContext.js";
+import React, { useState } from "react";
 import axios from "axios";
-import { AvatarSvg } from "../components/Svg.js";
-import AllUserProfile from "./getUser.js";
-import { MediumLoader } from "../components/Loader.js";
+import { MediumLoader } from "../components/Loader/Loader.jsx";
 
 export const UploadAvatar = ({ onFileChange }) => {
   const [isLoading, setIsLoading] = useState(false);

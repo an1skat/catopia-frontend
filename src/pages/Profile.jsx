@@ -19,15 +19,15 @@ import {
   FullLogoSvg,
   CloseSvg,
   DetailSvg,
-} from "../components/Svg.js";
+} from "../components/Svg.jsx";
 import NoPhotoBig from "../img/no-photo-big.jpg";
 import NoPhotoMedium from "../img/no-photo-medium.jpg";
 import NoPhotoSmall from "../img/no-photo-small.jpg";
 import NoVideoSmall from "../img/no-video-small.jpg";
-import { MiniLoader, MediumLoader } from "../components/Loader.js";
+import { MiniLoader, MediumLoader } from "../components/Loader/Loader.jsx";
 import axios from "axios";
-import AllUserProfile from "../utils/getUser.js";
-import { UploadAvatar, getUserProfile } from "../utils/DifferentUtils.js";
+import AllUserProfile from "../utils/getUser.jsx";
+import { UploadAvatar, getUserProfile } from "../utils/DifferentUtils.jsx";
 
 const UserProfile = () => {
   const [userAvatar, setUserAvatar] = useState(null);

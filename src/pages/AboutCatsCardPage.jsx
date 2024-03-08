@@ -1,5 +1,5 @@
-import AboutCatsCard from "../components/AboutCatsCard.js";
-import { catData } from "../components/CatsInfo.js";
+import AboutCatsCard from "../components/AboutCatsCard.jsx";
+import { catData } from "../components/CatsInfo.jsx";
 import { useParams } from "react-router-dom";
 const AboutCatsCardPage = () => {
     const { catId } = useParams();

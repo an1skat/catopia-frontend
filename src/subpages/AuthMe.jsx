@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../utils/authContext.js";
+import { useAuth } from "../utils/authContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 const AuthMe = () => {

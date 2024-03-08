@@ -10,11 +10,11 @@ import {
   FacebookSvg,
   TwitterSvg,
   LogoSvg,
-} from "../components/Svg.js";
-import { togglePasswordVisibility } from "../utils/passwordVisibility.js";
+} from "../components/Svg.jsx";
+import { togglePasswordVisibility } from "../utils/passwordVisibility.jsx";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../utils/authContext.js";
+import { useAuth } from "../utils/authContext.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState('');

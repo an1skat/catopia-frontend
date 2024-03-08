@@ -1,5 +1,4 @@
-import "../styles/main.css";
-import "./styles/style.css";
+import "../../styles/main.css";
 export const MiniLoader = () => {
   return (
     <div className="loader">

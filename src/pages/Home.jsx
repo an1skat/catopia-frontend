@@ -6,7 +6,7 @@ import {
   OneSvg,
   TwoSvg,
   ThreeSvg,
-} from "../components/Svg.js";
+} from "../components/Svg.jsx";
 import cats from "../img/cats-svg.jpg";
 import "../styles/main.css"
 

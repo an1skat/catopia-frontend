@@ -9,7 +9,7 @@ import {
   PeopleGroupSvg,
   HeartsSvg,
   RelaxSvg,
-} from "../components/Svg.js";
+} from "../components/Svg.jsx";
 import VarvaraCat from "../img/varvara-cat.png";
 import AntskatCat from "../img/antskat-cat.png";
 import FooterImg from "../img/footer-img.png";

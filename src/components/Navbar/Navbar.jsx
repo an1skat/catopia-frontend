@@ -1,10 +1,9 @@
-import { LogoSvg } from "../components/Svg.js";
 import { NavLink, Link } from "react-router-dom";
 import { React, useState, useEffect } from "react";
-import { useAuth } from "../utils/authContext.js";
-import { PersonSvg, NotificationsSvg } from "../components/Svg.js";
-import { MiniLoader } from "./Loader.js";
-import UserId from "../utils/Userid.js";
+import { useAuth } from "../../utils/authContext.jsx";
+import { PersonSvg, NotificationsSvg, LogoSvg } from "../Svg.jsx";
+import { MiniLoader } from "../Loader/Loader.jsx";
+import UserId from "../../utils/Userid.jsx";
 const UserProfile = () => {
   const [avatar, setAvatar] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

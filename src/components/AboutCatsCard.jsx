@@ -7,12 +7,12 @@ import {
   FriendsSvg,
   CatsPlusSvg,
   MinusSvg,
-} from "../components/Svg.js";
+} from "./Svg.jsx";
 import "../styles/about-cats-card.css";
 import { Link } from "react-router-dom";
-import Comment from "./CommetsLayout.js";
+import Comment from "./CommetsLayout.jsx";
 import axios from "axios";
-import UserId from "../utils/Userid.js";
+import UserId from "../utils/Userid.jsx";
 const ToggleIcon = ({ isVisible }) => {
   return isVisible ? <MinusSvg /> : <CatsPlusSvg />;
 };

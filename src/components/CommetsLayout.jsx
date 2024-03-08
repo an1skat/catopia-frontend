@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LikeSvg, DetailSvg, ActiveLikeSvg } from "../components/Svg";
+import { LikeSvg, DetailSvg, ActiveLikeSvg } from "./Svg.jsx";
 import MainAvatar from "../img/main-avatar.png";
 import axios from "axios";
 
